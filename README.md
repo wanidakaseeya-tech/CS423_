@@ -17,7 +17,7 @@
 
 ### Web Dashboard
 ![Dashboard Preview](dashboard_preview.png)
-![Dashboard Preview](dashboard_preview2.png.png)
+![Dashboard Preview](dashboard_preview2.png)
 *หน้าจอ Dashboard แสดงผลข้อมูลเซนเซอร์และการควบคุมอุปกรณ์แบบ Real-time*
 
 ### Hardware Simulation (Wokwi)
