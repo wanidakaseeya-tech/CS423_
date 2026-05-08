@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>SmartSense Pro | IoT Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-tertiary-fixed": "#0b1c30",
+                        "on-primary": "#ffffff",
+                        "secondary": "#00668a",
+                        "inverse-on-surface": "#eff1f3",
+                        "inverse-primary": "#bec6e0",
+                        "tertiary-container": "#0b1c30",
+                        "on-secondary-fixed-variant": "#004c69",
+                        "on-surface": "#191c1e",
+                        "secondary-container": "#40c2fd",
+                        "surface-container-lowest": "#ffffff",
+                        "on-tertiary-fixed-variant": "#38485d",
+                        "tertiary-fixed-dim": "#b7c8e1",
+                        "surface-container-low": "#f2f4f6",
+                        "tertiary-fixed": "#d3e4fe",
+                        "on-tertiary-container": "#75859d",
+                        "surface-container-high": "#e6e8ea",
+                        "outline": "#76777d",
+                        "on-primary-fixed": "#131b2e",
+                        "surface-tint": "#565e74",
+                        "secondary-fixed": "#c4e7ff",
+                        "primary-container": "#131b2e",
+                        "on-background": "#191c1e",
+                        "surface-container-highest": "#e0e3e5",
+                        "tertiary": "#000000",
+                        "on-primary-container": "#7c839b",
+                        "outline-variant": "#c6c6cd",
+                        "inverse-surface": "#2d3133",
+                        "error": "#ba1a1a",
+                        "on-secondary": "#ffffff",
+                        "background": "#f7f9fb",
+                        "on-secondary-fixed": "#001e2c",
+                        "error-container": "#ffdad6",
+                        "surface-variant": "#e0e3e5",
+                        "surface-container": "#eceef0",
+                        "surface": "#f7f9fb",
+                        "on-secondary-container": "#004d6a",
+                        "on-primary-fixed-variant": "#3f465c",
+                        "primary-fixed-dim": "#bec6e0",
+                        "on-error": "#ffffff",
+                        "on-tertiary": "#ffffff",
+                        "on-surface-variant": "#45464d",
+                        "on-error-container": "#93000a",
+                        "primary": "#000000",
+                        "surface-bright": "#f7f9fb",
+                        "surface-dim": "#d8dadc",
+                        "secondary-fixed-dim": "#7bd0ff",
+                        "primary-fixed": "#dae2fd",
+                        "room-pink": "#e91e63",
+                        "room-green": "#2e7d32",
+                        "room-blue": "#0277bd"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "xs": "4px",
+                        "md": "16px",
+                        "lg": "24px",
+                        "container-max": "1440px",
+                        "xl": "32px",
+                        "gutter": "24px",
+                        "unit": "4px",
+                        "sm": "8px"
+                    },
+                    "fontFamily": {
+                        "headline-lg": ["Space Grotesk"],
+                        "body-lg": ["Inter"],
+                        "display-xl": ["Space Grotesk"],
+                        "body-sm": ["Inter"],
+                        "body-md": ["Inter"],
+                        "label-caps": ["Inter"],
+                        "headline-md": ["Space Grotesk"],
+                        "data-mono": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "display-xl": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "500"}],
+                        "data-mono": ["14px", {"lineHeight": "20px", "letterSpacing": "-0.01em", "fontWeight": "500"}]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .glass-header { background: rgba(247, 249, 251, 0.8); backdrop-filter: blur(12px); }
+        .pulse-room-pink { animation: pulse-room-pink 2s infinite; }
+        @keyframes pulse-room-pink { 0% { box-shadow: 0 0 0 0 rgba(233, 30, 99, 0.4); } 70% { box-shadow: 0 0 0 10px rgba(233, 30, 99, 0); } 100% { box-shadow: 0 0 0 0 rgba(233, 30, 99, 0); } }
+        .pulse-room-green { animation: pulse-room-green 2s infinite; }
+        @keyframes pulse-room-green { 0% { box-shadow: 0 0 0 0 rgba(46, 125, 50, 0.4); } 70% { box-shadow: 0 0 0 10px rgba(46, 125, 50, 0); } 100% { box-shadow: 0 0 0 0 rgba(46, 125, 50, 0); } }
+        .pulse-room-blue { animation: pulse-room-blue 2s infinite; }
+        @keyframes pulse-room-blue { 0% { box-shadow: 0 0 0 0 rgba(2, 119, 189, 0.4); } 70% { box-shadow: 0 0 0 10px rgba(2, 119, 189, 0); } 100% { box-shadow: 0 0 0 0 rgba(2, 119, 189, 0); } }
+        .pulse-green { animation: pulse-green 2s infinite; }
+        @keyframes pulse-green { 0% { box-shadow: 0 0 0 0 rgba(0, 102, 138, 0.4); } 70% { box-shadow: 0 0 0 10px rgba(0, 102, 138, 0); } 100% { box-shadow: 0 0 0 0 rgba(0, 102, 138, 0); } }
+
+        /* Notification Panel */
+        #notifPanel {
+            display: none;
+            position: absolute;
+            top: calc(100% + 8px);
+            right: 0;
+            width: 340px;
+            max-height: 420px;
+            background: #fff;
+            border: 1px solid #c6c6cd33;
+            border-radius: 12px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+            z-index: 200;
+            overflow: hidden;
+            flex-direction: column;
+        }
+        #notifPanel.open { display: flex; }
+        #notifList { overflow-y: auto; max-height: 340px; }
+        #notifList::-webkit-scrollbar { width: 4px; }
+        #notifList::-webkit-scrollbar-thumb { background: #c6c6cd; border-radius: 4px; }
+        .notif-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            padding: 12px 16px;
+            border-bottom: 1px solid #f0f0f0;
+            transition: background 0.15s;
+            animation: notifSlide 0.2s ease;
+        }
+        @keyframes notifSlide { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: translateY(0); } }
+        .notif-item:hover { background: #f7f9fb; }
+        .notif-item.unread { background: #f0f8ff; }
+        .notif-dot { width: 8px; height: 8px; border-radius: 50%; margin-top: 5px; flex-shrink: 0; }
+        /* Toast Notifications */
+        #toastContainer {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column-reverse;
+            gap: 10px;
+            pointer-events: none;
+        }
+        .toast {
+            pointer-events: all;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            background: #fff;
+            border: 1px solid #e0e3e5;
+            border-left-width: 4px;
+            border-radius: 10px;
+            padding: 12px 14px;
+            box-shadow: 0 8px 28px rgba(0,0,0,0.13);
+            min-width: 280px;
+            max-width: 340px;
+            transform: translateX(120%);
+            opacity: 0;
+            transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1), opacity 0.3s ease;
+        }
+        .toast.show {
+            transform: translateX(0);
+            opacity: 1;
+        }
+        .toast.hide {
+            transform: translateX(120%);
+            opacity: 0;
+        }
+        .toast-icon { font-size: 20px; margin-top: 1px; flex-shrink: 0; }
+        .toast-close {
+            margin-left: auto;
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: #76777d;
+            font-size: 18px;
+            line-height: 1;
+            padding: 0 0 0 6px;
+            flex-shrink: 0;
+        }
+        .toast-close:hover { color: #191c1e; }
+
+        .notif-badge {
+            position: absolute;
+            top: 4px; right: 4px;
+            background: #e91e63;
+            color: white;
+            font-size: 10px;
+            font-weight: 700;
+            border-radius: 999px;
+            min-width: 16px;
+            height: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 4px;
+            pointer-events: none;
+        }
+    </style>
+    <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="bg-background text-on-surface font-body-md antialiased">
+
+<!-- Toast Container -->
+<div id="toastContainer"></div>
+
+<!-- TopNavBar -->
+<header class="fixed top-0 w-full z-50 bg-surface/80 dark:bg-background/80 backdrop-blur-md border-b border-outline-variant/30 shadow-sm">
+<div class="flex justify-between items-center px-lg md:px-xl h-20 max-w-container-max mx-auto">
+<div class="flex items-center gap-md">
+<span class="font-display-xl text-headline-md font-bold text-primary dark:text-on-primary-fixed">SmartSense Pro</span>
+</div>
+<nav class="hidden md:flex items-center gap-xl ml-lg">
+<a class="font-body-md text-body-md text-primary font-bold" href="#">Dashboard</a>
+</nav>
+<div class="flex items-center gap-md">
+<!-- Connection Status -->
+<div class="hidden lg:flex flex-col items-end mr-md">
+<div class="flex items-center gap-xs">
+<span class="w-2 h-2 rounded-full bg-secondary pulse-green"></span>
+<span class="font-label-caps text-[11px] text-secondary">Connection: Online</span>
+</div>
+<span class="font-data-mono text-[10px] text-on-surface-variant">Last updated: 2 mins ago</span>
+</div>
+<div class="hidden sm:flex gap-sm mr-md">
+<div class="relative" id="notifWrapper">
+    <button id="notifBtn" onclick="toggleNotifPanel()" class="p-sm hover:bg-surface-container-high/50 transition-all duration-200 rounded-full relative">
+        <span class="material-symbols-outlined text-on-surface-variant">notifications</span>
+        <span id="notifBadge" class="notif-badge" style="display:none;">0</span>
+    </button>
+    <div id="notifPanel">
+        <div class="flex items-center justify-between px-md py-sm border-b border-outline-variant/20 bg-surface-container-lowest">
+            <span class="font-headline-md text-body-md font-bold text-primary">Notifications</span>
+            <button onclick="clearAllNotifs()" class="text-[11px] text-secondary hover:underline font-body-sm">Clear all</button>
+        </div>
+        <div id="notifList">
+            <div id="notifEmpty" class="flex flex-col items-center justify-center py-xl text-on-surface-variant">
+                <span class="material-symbols-outlined text-3xl mb-xs">notifications_none</span>
+                <span class="text-[13px] font-body-sm">No notifications yet</span>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+</div>
+</header>
+<main class="pt-24 pb-xl px-lg md:px-xl max-w-container-max mx-auto">
+<div class="grid grid-cols-1 gap-md">
+<!-- SECTION 1: Dual Room Status Grid -->
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-gutter">
+<!-- Left Column: Executive Lounge A and Room C -->
+<div class="flex flex-col gap-gutter">
+<!-- Room 1: Executive Lounge A (PINK) -->
+<div class="flex flex-col gap-gutter">
+<div class="bg-surface-container-lowest border border-outline-variant/20 rounded-xl p-lg flex flex-col justify-between hover:shadow-lg transition-all duration-300 h-full">
+<div>
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-widest">Real-Time Room Status</span>
+<h2 class="font-headline-md text-headline-md mt-xs text-room-pink">Room A</h2>
+</div>
+<div class="flex justify-between items-start">
+    <div>
+        <div class="flex items-center gap-sm">
+            <div class="w-2 h-2 rounded-full bg-room-pink pulse-room-pink"></div>
+            <span id="r1-status" class="font-display-xl text-headline-lg text-room-pink">Vacant</span>
+            <span id="r1-count" class="text-on-surface-variant font-body-md">(0/10)</span>
+        </div>
+        <span id="r1-sensor-text" class="font-body-sm text-body-sm text-on-surface-variant mt-sm">PIR Sensor: No Motion Detected</span>
+    </div>
+    <span class="material-symbols-outlined text-room-pink" style="font-size: 40px;">person_off</span>
+</div>
+</div>
+<div class="bg-surface-container-high text-on-surface border border-outline-variant/20 rounded-xl p-lg flex flex-col justify-between"><div class="flex justify-between items-start">
+<div>
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-widest">Environment Index</span>
+<h2 class="font-headline-md text-headline-md mt-xs text-on-surface">Status</h2>
+</div>
+
+</div>
+<div class="mt-xl grid grid-cols-1 sm:grid-cols-2 gap-md">
+<div class="flex-1 flex items-center justify-center gap-lg py-md bg-white/40 rounded-lg border border-outline-variant/20">
+<div class="relative w-14 h-14 flex items-center justify-center rounded-full border-[4px] border-room-pink/50 border-t-outline-variant/20">
+    <span id="r1-t" class="font-display-xl text-body-md text-primary">--.-</span>
+</div>
+<div class="text-left">
+<span class="block font-headline-md text-body-lg text-room-pink">Celsius</span>
+<span class="font-body-sm text-[10px] text-on-surface-variant">DHT22 Temp</span>
+</div>
+</div>
+<div class="flex-1 flex items-center justify-center gap-lg py-md bg-white/40 rounded-lg border border-outline-variant/20">
+<div class="relative w-14 h-14 flex items-center justify-center rounded-full border-[4px] border-room-pink/50 border-b-outline-variant/20">
+    <span id="r1-h" class="font-display-xl text-body-md text-primary">--%</span>
+</div>
+<div class="text-left">
+<span class="block font-headline-md text-body-lg text-room-pink">Humidity</span>
+<span class="font-body-sm text-[10px] text-on-surface-variant">Rel. Moisture</span>
+</div>
+</div>
+</div></div>
+</div>
+<!-- Room 3: Room C (BLUE) -->
+<div class="flex flex-col gap-gutter">
+<div class="bg-surface-container-lowest border border-outline-variant/20 rounded-xl p-lg flex flex-col justify-between hover:shadow-lg transition-all duration-300 h-full">
+<div>
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-widest">Real-Time Room Status</span>
+<h2 class="font-headline-md text-headline-md mt-xs text-room-blue">Room C</h2>
+<div class="flex justify-between items-start">
+    <div>
+        <div class="flex items-center gap-sm">
+            <div class="w-2 h-2 rounded-full bg-room-blue pulse-room-blue"></div>
+            <span id="r3-status" class="font-display-xl text-headline-lg text-room-blue">Vacant</span>
+            <span id="r3-count" class="text-on-surface-variant font-body-md">(0/10)</span>
+        </div>
+        <span id="r3-sensor-text" class="font-body-sm text-body-sm text-on-surface-variant mt-sm">PIR Sensor: No Motion Detected</span>
+    </div>
+    <span class="material-symbols-outlined text-room-blue" style="font-size: 40px;">person_off</span>
+</div>
+</div>
+</div>
+<div class="bg-surface-container-high text-on-surface border border-outline-variant/20 rounded-xl p-lg flex flex-col justify-between">
+<div class="flex justify-between items-start">
+<div>
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-widest">Environment Index</span>
+<h2 class="font-headline-md text-headline-md mt-xs">Status</h2>
+</div>
+
+</div>
+<div class="mt-xl grid grid-cols-1 sm:grid-cols-2 gap-md">
+<div class="flex-1 flex items-center justify-center gap-lg py-md bg-white/40 rounded-lg border border-outline-variant/20">
+<div class="relative w-14 h-14 flex items-center justify-center rounded-full border-[4px] border-room-blue/50 border-t-outline-variant/20">
+    <span id="r3-t" class="font-display-xl text-body-md text-primary">--.-</span>
+</div>
+<div class="text-left">
+<span class="block font-headline-md text-body-lg text-room-blue">Celsius</span>
+<span class="font-body-sm text-[10px] text-on-surface-variant">DHT22 Temp</span>
+</div>
+</div>
+<div class="flex-1 flex items-center justify-center gap-lg py-md bg-white/40 rounded-lg border border-outline-variant/20">
+<div class="relative w-14 h-14 flex items-center justify-center rounded-full border-[4px] border-room-blue/50 border-b-outline-variant/20">
+    <span id="r3-h" class="font-display-xl text-body-md text-primary">--%</span>
+</div>
+<div class="text-left">
+<span class="block font-headline-md text-body-lg text-room-blue">Humidity</span>
+<span class="font-body-sm text-[10px] text-on-surface-variant">Rel. Moisture</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Column: Room B and New Graph -->
+<div class="flex flex-col gap-gutter">
+<!-- Room 2: Room B (GREEN) -->
+<div class="flex flex-col gap-gutter">
+    <div class="bg-surface-container-lowest border border-outline-variant/20 rounded-xl p-lg flex flex-col justify-between hover:shadow-lg transition-all duration-300 h-full">
+        <div>
+            <span class="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-widest">Real-Time Room Status</span>
+            <h2 class="font-headline-md text-headline-md mt-xs text-room-green">Room B</h2>
+        </div>
+        <div class="flex justify-between items-start">
+            <div>
+                <div class="flex items-center gap-sm">
+                    <div class="w-2 h-2 rounded-full bg-room-green pulse-room-green"></div>
+                    <span id="r2-status" class="font-display-xl text-headline-lg text-room-green">Vacant</span>
+                    <span id="r2-count" class="text-on-surface-variant font-body-md">(0/10)</span>
+                </div>
+                <span id="r2-sensor-text" class="font-body-sm text-body-sm text-on-surface-variant mt-sm">PIR Sensor: No Motion Detected</span>
+            </div>
+            <span class="material-symbols-outlined text-room-green" style="font-size: 40px;">person_off</span>
+        </div>
+    </div>
+    <div class="bg-surface-container-high text-on-surface border border-outline-variant/20 rounded-xl p-lg flex flex-col justify-between">
+        <div class="flex justify-between items-start">
+            <div>
+                <span class="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-widest">Environment Index</span>
+                <h2 class="font-headline-md text-headline-md mt-xs">Status</h2>
+            </div>
+
+        </div>
+        <div class="mt-xl grid grid-cols-1 sm:grid-cols-2 gap-md">
+            <div class="flex-1 flex items-center justify-center gap-lg py-md bg-white/40 rounded-lg border border-outline-variant/20">
+                <div class="relative w-14 h-14 flex items-center justify-center rounded-full border-[4px] border-room-green/50 border-t-outline-variant/20">
+                    <span id="r2-t" class="font-display-xl text-body-md text-primary">--.-</span>
+                </div>
+                <div class="text-left">
+                    <span class="block font-headline-md text-body-lg text-room-green">Celsius</span>
+                    <span class="font-body-sm text-[10px] text-on-surface-variant">DHT22 Temp</span>
+                </div>
+            </div>
+            <div class="flex-1 flex items-center justify-center gap-lg py-md bg-white/40 rounded-lg border border-outline-variant/20">
+                <div class="relative w-14 h-14 flex items-center justify-center rounded-full border-[4px] border-room-green/50 border-b-outline-variant/20">
+                    <span id="r2-h" class="font-display-xl text-body-md text-primary">--%</span>
+                </div>
+                <div class="text-left">
+                    <span class="block font-headline-md text-body-lg text-room-green">Humidity</span>
+                    <span class="font-body-sm text-[10px] text-on-surface-variant">Rel. Moisture</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- New "Comparative Occupancy Trends" Section -->
+<div class="flex flex-col gap-md">
+    <div class="bg-surface-container-lowest rounded-3xl p-lg border border-outline-variant w-full">
+        <div class="flex justify-between items-center mb-lg">
+            <div>
+                <span class="font-label-md text-on-surface-variant uppercase tracking-wider">Analytics</span>
+                <h2 class="font-headline-md text-headline-md text-on-surface mt-xs">Comparative Occupancy Trends</h2>
+            </div>
+            <div id="chartLegend" class="flex gap-md"></div>
+        </div>
+        <div class="h-60 w-full">
+            <canvas id="occupancyChart"></canvas>
+        </div>
+    </div>
+
+    <div class="bg-surface-container-lowest border border-outline-variant/20 rounded-xl p-lg shadow-sm">
+        <div class="flex items-center gap-sm mb-lg">
+            <span class="material-symbols-outlined text-primary">settings_remote</span>
+            <h3 class="font-headline-md text-headline-md">Hardware Control</h3>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-lg">
+            <div class="flex items-center justify-between p-sm bg-background border border-outline-variant/30 rounded-lg">
+                <div class="flex items-center gap-md">
+                    <div class="w-10 h-10 flex items-center justify-center bg-secondary-container/20 rounded-full">
+                        <span class="material-symbols-outlined text-secondary">mode_fan</span>
+                    </div>
+                    <div>
+                        <p class="font-body-md font-bold text-primary">Ventilation Fan</p>
+                        <p class="font-body-sm text-on-surface-variant">Central HVAC</p>
+                    </div>
+                </div>
+                <label class="relative inline-flex items-center cursor-pointer">
+                    <input id="fanToggle" class="sr-only peer" type="checkbox"/>
+                    <div class="w-11 h-6 bg-surface-container-highest rounded-full peer peer-checked:bg-secondary after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:after:translate-x-full"></div>
+                </label>
+            </div>
+            <div class="flex items-center justify-between p-sm bg-background border border-outline-variant/30 rounded-lg">
+                <div class="flex items-center gap-md">
+                    <div class="w-10 h-10 flex items-center justify-center bg-secondary-container/20 rounded-full">
+                        <span class="material-symbols-outlined text-secondary">lightbulb</span>
+                    </div>
+                    <div>
+                        <p class="font-body-md font-bold text-primary">Status LED</p>
+                        <p class="font-body-sm text-on-surface-variant">Entrance Alert</p>
+                    </div>
+                </div>
+                <label class="relative inline-flex items-center cursor-pointer">
+                    <input id="ledToggle" class="sr-only peer" type="checkbox"/>
+                    <div class="w-11 h-6 bg-surface-container-highest rounded-full peer peer-checked:bg-secondary after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:after:translate-x-full"></div>
+                </label>
+            </div>
+        </div>
+    </div>
+</div>
+</div> 
+    </div>
+
+    <div class="mt-lg pt-md border-t border-outline-variant/20 flex items-center gap-xs">
+        <span class="material-symbols-outlined text-on-surface-variant text-sm">info</span>
+        <p class="text-[12px] text-on-surface-variant italic">Commands are sent via MQTT with 50ms average latency.</p>
+    </div>
+</main>
+<!-- Footer -->
+<footer class="bg-primary-container dark:bg-tertiary-container w-full py-xl border-t border-outline-variant/20 mt-xl">
+<div class="flex flex-col md:flex-row justify-between items-center px-lg max-w-container-max mx-auto gap-md">
+<div class="flex flex-col items-center md:items-start">
+<span class="font-headline-md text-on-primary-container text-headline-md font-bold mb-xs">SmartSense Pro</span>
+<p class="font-body-sm text-body-sm text-on-primary-container/80 text-center md:text-left">© 2024 SmartSense IoT Solutions. Precision Environmental Monitoring.</p>
+</div>
+<div class="flex gap-xl">
+<a class="font-body-sm text-body-sm text-on-primary-container/80 hover:text-on-primary-container hover:opacity-80 transition-all" href="#">Documentation</a>
+<a class="font-body-sm text-body-sm text-on-primary-container/80 hover:text-on-primary-container hover:opacity-80 transition-all" href="#">Support</a>
+<a class="font-body-sm text-body-sm text-on-primary-container/80 hover:text-on-primary-container hover:opacity-80 transition-all" href="#">Privacy Policy</a>
+<a class="font-body-sm text-body-sm text-on-primary-container/80 hover:text-on-primary-container hover:opacity-80 transition-all" href="#">Contact Us</a>
+</div>
+</div>
+<script>
+    // ── Notification System ──────────────────────────────────────────
+    let notifCount = 0;
+    let unreadCount = 0;
+    let panelOpen = false;
+
+    const NOTIF_COLORS = {
+        motion:   { dot: '#e91e63', icon: 'directions_walk' },
+        full:     { dot: '#ba1a1a', icon: 'person' },
+        available:{ dot: '#2e7d32', icon: 'person_pin_circle' },
+        vacant:   { dot: '#76777d', icon: 'person_off' },
+        fan:      { dot: '#00668a', icon: 'mode_fan' },
+        led:      { dot: '#f59e0b', icon: 'lightbulb' },
+        capacity: { dot: '#7c3aed', icon: 'group' },
+    };
+
+    function showToast(type, message) {
+        const cfg = NOTIF_COLORS[type] || NOTIF_COLORS.motion;
+        const container = document.getElementById('toastContainer');
+
+        const toast = document.createElement('div');
+        toast.className = 'toast';
+        toast.style.borderLeftColor = cfg.dot;
+        toast.innerHTML = `
+            <span class="material-symbols-outlined toast-icon" style="color:${cfg.dot}">${cfg.icon}</span>
+            <div class="flex-1 min-w-0">
+                <p style="font-size:13px;font-weight:600;color:#191c1e;line-height:1.3;margin:0 0 2px">${message}</p>
+                <p style="font-size:11px;color:#76777d;margin:0">${new Date().toLocaleTimeString()}</p>
+            </div>
+            <button class="toast-close" onclick="this.closest('.toast').remove()">✕</button>
+        `;
+        container.appendChild(toast);
+
+        // Trigger slide-in
+        requestAnimationFrame(() => {
+            requestAnimationFrame(() => toast.classList.add('show'));
+        });
+
+        // Auto-dismiss after 4s
+        setTimeout(() => {
+            toast.classList.remove('show');
+            toast.classList.add('hide');
+            setTimeout(() => toast.remove(), 400);
+        }, 4000);
+    }
+
+    function pushNotif(type, message) {
+        notifCount++;
+        unreadCount++;
+
+        // Always show a toast
+        showToast(type, message);
+
+        const cfg = NOTIF_COLORS[type] || NOTIF_COLORS.motion;
+        const time = new Date().toLocaleTimeString();
+
+        // Remove empty state
+        const empty = document.getElementById('notifEmpty');
+        if (empty) empty.remove();
+
+        const list = document.getElementById('notifList');
+        const item = document.createElement('div');
+        item.className = 'notif-item unread';
+        item.innerHTML = `
+            <div class="notif-dot" style="background:${cfg.dot}"></div>
+            <div class="flex-1 min-w-0">
+                <p class="text-[13px] font-body-sm text-on-surface leading-tight">${message}</p>
+                <p class="text-[11px] text-on-surface-variant mt-[2px]">${time}</p>
+            </div>
+            <span class="material-symbols-outlined text-[18px]" style="color:${cfg.dot};flex-shrink:0">${cfg.icon}</span>
+        `;
+        list.prepend(item);
+
+        // Update badge
+        const badge = document.getElementById('notifBadge');
+        badge.style.display = 'flex';
+        badge.innerText = unreadCount > 99 ? '99+' : unreadCount;
+    }
+
+    function toggleNotifPanel() {
+        panelOpen = !panelOpen;
+        const panel = document.getElementById('notifPanel');
+        panel.classList.toggle('open', panelOpen);
+
+        if (panelOpen) {
+            // Mark all as read
+            unreadCount = 0;
+            document.getElementById('notifBadge').style.display = 'none';
+            document.querySelectorAll('.notif-item.unread').forEach(el => el.classList.remove('unread'));
+        }
+    }
+
+    function clearAllNotifs() {
+        const list = document.getElementById('notifList');
+        list.innerHTML = `<div id="notifEmpty" class="flex flex-col items-center justify-center py-xl text-on-surface-variant">
+            <span class="material-symbols-outlined text-3xl mb-xs">notifications_none</span>
+            <span class="text-[13px] font-body-sm">No notifications yet</span>
+        </div>`;
+        unreadCount = 0;
+        notifCount = 0;
+        document.getElementById('notifBadge').style.display = 'none';
+    }
+
+    // Close panel when clicking outside
+    document.addEventListener('click', (e) => {
+        const wrapper = document.getElementById('notifWrapper');
+        if (panelOpen && wrapper && !wrapper.contains(e.target)) {
+            panelOpen = false;
+            document.getElementById('notifPanel').classList.remove('open');
+        }
+    });
+
+    // 1. MQTT & State Initialization
+    const broker = 'wss://broker.emqx.io:8084/mqtt'; 
+    const topicData = 'jennifer/iot/smartsense/all';
+    const topicControl = 'jennifer/iot/control/';
+    const clientId = 'SmartSense_Dashboard_' + Math.random().toString(16).substr(2, 8);
+    const client = mqtt.connect(broker, {
+        clientId: clientId,
+        clean: true,
+        reconnectPeriod: 2000,
+        connectTimeout: 30000,
+        keepalive: 60,
+        protocolVersion: 4
+    });
+    console.log('[MQTT] Connecting with clientId:', clientId);
+    console.log('[MQTT] Broker URL:', broker);
+
+    client.on('reconnect', () => console.log('[MQTT] Reconnecting...'));
+    client.on('close', () => {
+        console.log('[MQTT] Connection closed');
+        const statusText = document.querySelector('.text-secondary');
+        if(statusText) statusText.innerText = 'Connection: Reconnecting...';
+    });
+    client.on('packetreceive', (packet) => console.log('[MQTT] Packet received:', packet.cmd));
+
+    // Global variables must be at the top
+    const roomOccupancy = { r1: 0, r2: 0, r3: 0 };
+    const lastMotionState = { r1: 0, r2: 0, r3: 0 };
+    const lastClickTime = { r1: 0, r2: 0, r3: 0 };
+    const lastCountedTime = { r1: 0, r2: 0, r3: 0 };
+    const MOTION_COOLDOWN_MS = 3000;
+
+    window.onload = () => {
+        roomOccupancy.r1 = 0;
+        roomOccupancy.r2 = 0;
+        roomOccupancy.r3 = 0;
+        // Reset click times too
+        lastClickTime.r1 = 0;
+        lastClickTime.r2 = 0;
+        lastClickTime.r3 = 0;
+    };
+
+    // 2. Initialize Chart
+    const ctx = document.getElementById('occupancyChart').getContext('2d');
+    const occupancyChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: [], 
+            datasets: [
+                { label: 'Room A', borderColor: '#ec4899', data: [], tension: 0.4 },
+                { label: 'Room B', borderColor: '#22c55e', data: [], tension: 0.4 },
+                { label: 'Room C', borderColor: '#3b82f6', data: [], tension: 0.4 }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: { y: { beginAtZero: true, max: 10 } }
+        }
+    });
+
+    // 3. Single Merged Dashboard Function
+    function updateDashboard(data) {
+        const now = new Date().toLocaleTimeString();
+        
+        // Update "Last Updated" timestamp UI
+        const timeLabel = document.querySelector('.text-on-surface-variant.font-data-mono');
+        if(timeLabel) timeLabel.innerText = `Last updated: ${now}`;
+
+        // Update live room cards
+        updateRoomData('r1', data.r1, 'pink');
+        updateRoomData('r2', data.r2, 'green');
+        updateRoomData('r3', data.r3, 'blue');
+
+        // Add new data point to Chart (sliding window of 10)
+        if (occupancyChart.data.labels.length > 10) {
+            occupancyChart.data.labels.shift();
+            occupancyChart.data.datasets.forEach(ds => ds.data.shift());
+        }
+
+        occupancyChart.data.labels.push(now);
+        occupancyChart.data.datasets[0].data.push(roomOccupancy.r1);
+        occupancyChart.data.datasets[1].data.push(roomOccupancy.r2);
+        occupancyChart.data.datasets[2].data.push(roomOccupancy.r3);
+        
+        occupancyChart.update();
+    }
+
+    // 4. Room Logic Function (Updated)
+    function updateRoomData(idPrefix, roomData, color) {
+        if (!roomData) return;
+
+        const tempEl = document.getElementById(`${idPrefix}-t`);
+        const humEl = document.getElementById(`${idPrefix}-h`);
+        if (tempEl) tempEl.innerText = roomData.t.toFixed(1);
+        if (humEl) humEl.innerText = roomData.h.toFixed(0) + '%';
+
+        const statusText = document.getElementById(`${idPrefix}-status`);
+        const sensorLabel = document.getElementById(`${idPrefix}-sensor-text`);
+        const countText = document.getElementById(`${idPrefix}-count`);
+
+        if (statusText) {
+            const container = statusText.closest('.bg-surface-container-lowest');
+            const statusIcon = container.querySelector('.material-symbols-outlined');
+            const statusDot = statusText.previousElementSibling;
+
+            const currentMotion = roomData.m;
+            const roomLabel = idPrefix === 'r1' ? 'Room A' : idPrefix === 'r2' ? 'Room B' : 'Room C';
+            const now = Date.now();
+
+            // Count on ANY motion=1 signal, but only once per cooldown window (3s)
+            // This handles the ESP32's instant reset pattern (0→1→0 in milliseconds)
+            if (currentMotion === 1 && (now - lastCountedTime[idPrefix]) > MOTION_COOLDOWN_MS) {
+                lastCountedTime[idPrefix] = now;
+                if (roomOccupancy[idPrefix] < 10) {
+                    roomOccupancy[idPrefix]++;
+                    const newCount = roomOccupancy[idPrefix];
+                    pushNotif('motion', `Motion detected in ${roomLabel} — occupancy now ${newCount}/10`);
+                    if (newCount === 5) pushNotif('capacity', `${roomLabel} is at 50% capacity (5/10)`);
+                    if (newCount === 8) pushNotif('capacity', `${roomLabel} is nearly full (8/10)`);
+                } else {
+                    pushNotif('full', `${roomLabel} is fully occupied (10/10)`);
+                }
+            }
+            lastMotionState[idPrefix] = currentMotion;
+
+            const currentCount = roomOccupancy[idPrefix];
+            if (countText) countText.innerText = `(${currentCount}/10)`;
+
+            if (currentCount === 0) {
+                statusText.innerText = 'Vacant';
+                if (sensorLabel) sensorLabel.innerText = "PIR Sensor: No Motion Detected";
+                if (statusDot) statusDot.classList.remove(`pulse-room-${color}`);
+                if (statusIcon) statusIcon.innerText = 'person_off';
+            } else if (currentCount < 10) {
+                statusText.innerText = 'Available';
+                if (sensorLabel) sensorLabel.innerText = "PIR Sensor: Active Motion Detected";
+                if (statusDot) statusDot.classList.add(`pulse-room-${color}`);
+                if (statusIcon) statusIcon.innerText = 'person_pin_circle';
+            } else {
+                statusText.innerText = 'Occupied';
+                if (sensorLabel) sensorLabel.innerText = "PIR Sensor: Room at Full Capacity";
+                if (statusDot) statusDot.classList.add(`pulse-room-${color}`);
+                if (statusIcon) statusIcon.innerText = 'person';
+                if (countText) countText.innerText = `(10/10)`;
+            }
+        }
+    }
+
+    // 5. MQTT Event Handlers
+    client.on('connect', () => {
+        client.subscribe(topicData);
+        const statusText = document.querySelector('.text-secondary');
+        if(statusText) statusText.innerText = 'Connection: Online';
+    });
+
+    client.on('message', (topic, message) => {
+        if (topic === topicData) {
+            try {
+                const data = JSON.parse(message.toString());
+                updateDashboard(data);
+            } catch (e) {
+                console.error("JSON Parse Error", e);
+            }
+        }
+    });
+
+    // 6. Controls
+    function sendHardwareCommand(device, state) {
+        const topic = `jennifer/iot/control/${device}`;
+        const payload = JSON.stringify({ power: state ? 1 : 0 });
+        
+        client.publish(topic, payload, { qos: 0, retain: false }, (error) => {
+            if (error) {
+                console.error(`MQTT Publish Error (${device}):`, error);
+            } else {
+                console.log(`Command sent to ${device}: ${state ? 'ON' : 'OFF'}`);
+            }
+        });
+    }
+
+    document.getElementById('fanToggle')?.addEventListener('change', (e) => {
+        sendHardwareCommand('fan', e.target.checked);
+        pushNotif('fan', `Ventilation Fan turned ${e.target.checked ? 'ON' : 'OFF'}`);
+    });
+
+    document.getElementById('ledToggle')?.addEventListener('change', (e) => {
+        sendHardwareCommand('led', e.target.checked);
+        pushNotif('led', `Status LED turned ${e.target.checked ? 'ON' : 'OFF'}`);
+    });
+
+</script>
+</body>
+</html>
